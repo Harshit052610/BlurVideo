@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { GraduationCap, Wand2, Eye, Brain, Shield, Upload as UploadIcon, Menu, X } from "lucide-react";
-import backgroundVideo from "@assets/2818564-uhd_3840_2160_24fps_1755165833727.mp4";
 import { FileUpload } from "@/components/file-upload";
 import { ProcessingStatus } from "@/components/processing-status";
 import { SolutionsDisplay } from "@/components/solutions-display";
@@ -173,7 +172,7 @@ export default function Home() {
           className="w-full h-full object-cover"
           data-testid="background-video"
         >
-          <source src={backgroundVideo} type="video/mp4" />
+          <source src="/background-video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
