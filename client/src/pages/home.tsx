@@ -177,40 +177,40 @@ export default function Home() {
           Your browser does not support the video tag.
         </video>
       </div>
-      <div className="fixed inset-0 w-full h-full bg-black bg-opacity-10"></div>
+      <div className="fixed inset-0 w-full h-full bg-black bg-opacity-5"></div>
 
       {/* Main Content */}
       <div className="relative z-10 min-h-screen">
         {/* Header */}
-        <header className="pt-8 pb-4">
+        <header className="pt-4 pb-2">
           <div className="max-w-7xl mx-auto px-6">
-            <nav className="glassmorphism rounded-2xl px-8 py-4 animate-float">
+            <nav className="glassmorphism rounded-xl px-4 py-2 animate-float">
               <div className="flex justify-between items-center">
-                <div className="flex items-center space-x-3" data-testid="logo">
-                  <div className="w-10 h-10 glassmorphism rounded-xl flex items-center justify-center">
-                    <GraduationCap className="w-6 h-6" data-testid="logo-icon" />
+                <div className="flex items-center space-x-2" data-testid="logo">
+                  <div className="w-6 h-6 glassmorphism rounded-lg flex items-center justify-center">
+                    <GraduationCap className="w-4 h-4" data-testid="logo-icon" />
                   </div>
-                  <h1 className="text-2xl font-bold" data-testid="logo-text">EduSolve</h1>
+                  <h1 className="text-lg font-bold" data-testid="logo-text">EduSolve</h1>
                 </div>
                 
-                <div className="hidden md:flex items-center space-x-6">
+                <div className="hidden md:flex items-center space-x-4">
                   <button 
                     onClick={() => scrollToSection('features')}
-                    className="hover:text-gray-200 transition-colors"
+                    className="text-sm hover:text-gray-200 transition-colors"
                     data-testid="nav-features"
                   >
                     Features
                   </button>
                   <button 
                     onClick={() => scrollToSection('how-it-works')}
-                    className="hover:text-gray-200 transition-colors"
+                    className="text-sm hover:text-gray-200 transition-colors"
                     data-testid="nav-how-it-works"
                   >
                     How it Works
                   </button>
                   <button 
                     onClick={() => scrollToSection('security')}
-                    className="hover:text-gray-200 transition-colors"
+                    className="text-sm hover:text-gray-200 transition-colors"
                     data-testid="nav-security"
                   >
                     Security
@@ -259,23 +259,23 @@ export default function Home() {
         </header>
 
         {/* Hero Section */}
-        <section className="py-16">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl md:text-6xl font-bold mb-6 animate-float" data-testid="hero-title">
+        <section className="py-8">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 animate-float" data-testid="hero-title">
                 AI-Powered Question<br />
                 <span className="bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-transparent">
                   Paper Solutions
                 </span>
               </h2>
-              <p className="text-xl md:text-2xl text-gray-100 max-w-3xl mx-auto leading-relaxed" data-testid="hero-description">
-                Upload your question papers in any format and get instant, detailed solutions powered by advanced AI technology.
+              <p className="text-lg text-gray-100 max-w-2xl mx-auto leading-relaxed" data-testid="hero-description">
+                Upload your question papers and get instant, detailed solutions
               </p>
             </div>
 
             {/* Main Upload Interface */}
-            <div className="max-w-4xl mx-auto">
-              <div className="glassmorphism rounded-3xl p-8 mb-8 animate-float">
+            <div className="max-w-2xl mx-auto">
+              <div className="glassmorphism rounded-2xl p-4 mb-6 animate-float">
                 <FileUpload
                   onFileSelect={setSelectedFile}
                   onFileRemove={() => setSelectedFile(null)}
@@ -284,10 +284,10 @@ export default function Home() {
                 />
 
                 {/* Text Input Option */}
-                <div className="mt-8">
-                  <div className="flex items-center justify-center mb-6">
+                <div className="mt-4">
+                  <div className="flex items-center justify-center mb-3">
                     <div className="flex-1 h-px bg-white bg-opacity-20"></div>
-                    <span className="px-4 text-gray-200 text-sm" data-testid="divider-text">OR</span>
+                    <span className="px-3 text-gray-200 text-xs" data-testid="divider-text">OR</span>
                     <div className="flex-1 h-px bg-white bg-opacity-20"></div>
                   </div>
                   
@@ -295,21 +295,21 @@ export default function Home() {
                     placeholder="Paste your questions here..."
                     value={questionText}
                     onChange={(e) => setQuestionText(e.target.value)}
-                    className="w-full h-32 glassmorphism-dark rounded-xl p-4 text-white placeholder-gray-300 resize-none focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-all duration-300 border-0 bg-transparent"
+                    className="w-full h-20 glassmorphism-dark rounded-xl p-3 text-white placeholder-gray-300 resize-none focus:outline-none focus:ring-1 focus:ring-white focus:ring-opacity-30 transition-all duration-300 border-0 bg-transparent text-sm"
                     disabled={isProcessing}
                     data-testid="textarea-questions"
                   />
                 </div>
 
                 {/* Process Button */}
-                <div className="mt-8 text-center">
+                <div className="mt-4 text-center">
                   <Button
                     onClick={handleProcess}
                     disabled={isProcessing || (!selectedFile && !questionText.trim())}
-                    className="glassmorphism hover:bg-white hover:bg-opacity-40 px-12 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none border-0 bg-transparent"
+                    className="glassmorphism hover:bg-white hover:bg-opacity-30 px-6 py-2 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none border-0 bg-transparent"
                     data-testid="button-generate-solutions"
                   >
-                    <Wand2 className="w-5 h-5 mr-3" />
+                    <Wand2 className="w-4 h-4 mr-2" />
                     Generate Solutions
                   </Button>
                 </div>
