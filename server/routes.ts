@@ -19,10 +19,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Health check endpoint
   app.get("/api/health", async (req, res) => {
     try {
-      const apiKeyValid = await validateApiKey();
+      const apiValidation = await validateApiKey();
       res.json({ 
         status: "ok", 
-        geminiApiConnected: apiKeyValid,
+        geminiApiConnected: apiValidation.valid,
+        apiError: apiValidation.error,
         timestamp: new Date().toISOString()
       });
     } catch (error) {
@@ -36,7 +37,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Process text questions directly
   app.post("/api/process-text", async (req, res) => {
     try {
+      console.log("Processing text request from:", req.ip);
       const { text, filename } = processQuestionSchema.parse(req.body);
+      
+      // Validate API before processing
+      const apiValidation = await validateApiKey();
+      if (!apiValidation.valid) {
+        return res.status(503).json({
+          success: false,
+          message: "AI service temporarily unavailable",
+          error: apiValidation.error || "API validation failed",
+          retryAfter: 60 // seconds
+        });
+      }
       
       const solutions = await generateSolutions(text);
       
@@ -52,12 +65,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       if (error instanceof z.ZodError) {
         res.status(400).json({
+          success: false,
           message: "Invalid input data",
           errors: error.errors
         });
       } else {
-        res.status(500).json({
-          message: error instanceof Error ? error.message : "Failed to process text"
+        const errorMessage = error instanceof Error ? error.message : "Failed to process text";
+        const statusCode = errorMessage.includes("quota") || errorMessage.includes("rate limit") ? 429 : 500;
+        
+        res.status(statusCode).json({
+          success: false,
+          message: errorMessage,
+          retryAfter: statusCode === 429 ? 120 : undefined
         });
       }
     }
@@ -66,10 +85,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Process uploaded files
   app.post("/api/process-file", upload.single("file"), async (req, res) => {
     try {
+      console.log("Processing file upload from:", req.ip);
       const file = req.file;
       
       if (!file) {
-        return res.status(400).json({ message: "No file uploaded" });
+        return res.status(400).json({ 
+          success: false,
+          message: "No file uploaded" 
+        });
+      }
+
+      // Validate API before processing
+      const apiValidation = await validateApiKey();
+      if (!apiValidation.valid) {
+        return res.status(503).json({
+          success: false,
+          message: "AI service temporarily unavailable",
+          error: apiValidation.error || "API validation failed",
+          retryAfter: 60
+        });
       }
 
       let extractedText: string;
@@ -85,12 +119,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         extractedText = file.buffer.toString('utf-8');
       } else {
         return res.status(400).json({
+          success: false,
           message: "Unsupported file type. Please upload PDF, PNG, JPG, or TXT files."
         });
       }
 
       if (!extractedText.trim()) {
         return res.status(400).json({
+          success: false,
           message: "No text could be extracted from the uploaded file"
         });
       }
@@ -109,8 +145,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
     } catch (error) {
       console.error("File processing error:", error);
-      res.status(500).json({
-        message: error instanceof Error ? error.message : "Failed to process file"
+      
+      const errorMessage = error instanceof Error ? error.message : "Failed to process file";
+      const statusCode = errorMessage.includes("quota") || errorMessage.includes("rate limit") ? 429 : 500;
+      
+      res.status(statusCode).json({
+        success: false,
+        message: errorMessage,
+        retryAfter: statusCode === 429 ? 120 : undefined
       });
     }
   });

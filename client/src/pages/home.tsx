@@ -42,11 +42,27 @@ export default function Home() {
         description: "Solutions generated successfully",
       });
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error("Text processing error:", error);
+      
+      let errorMessage = "Failed to process text. Please try again.";
+      
+      // Handle API response errors
+      if (error?.message?.includes("quota")) {
+        errorMessage = "API quota exceeded. Please try again in a few minutes.";
+      } else if (error?.message?.includes("rate limit")) {
+        errorMessage = "Too many requests. Please wait a moment and try again.";
+      } else if (error?.message?.includes("unavailable")) {
+        errorMessage = "AI service temporarily unavailable. Please try again shortly.";
+      } else if (error?.message?.includes("API key")) {
+        errorMessage = "API configuration issue. Please contact support.";
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
       toast({
-        title: "Error",
-        description: "Failed to process text. Please try again.",
+        title: "Text Processing Failed",
+        description: errorMessage,
         variant: "destructive",
       });
     },
@@ -77,11 +93,27 @@ export default function Home() {
         description: "File processed and solutions generated successfully",
       });
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error("File processing error:", error);
+      
+      let errorMessage = "Failed to process file. Please try again.";
+      
+      // Handle API response errors  
+      if (error?.message?.includes("quota")) {
+        errorMessage = "API quota exceeded. Please try again in a few minutes.";
+      } else if (error?.message?.includes("rate limit")) {
+        errorMessage = "Too many requests. Please wait a moment and try again.";
+      } else if (error?.message?.includes("unavailable")) {
+        errorMessage = "AI service temporarily unavailable. Please try again shortly.";
+      } else if (error?.message?.includes("API key")) {
+        errorMessage = "API configuration issue. Please contact support.";
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
       toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "Failed to process file. Please try again.",
+        title: "File Processing Failed", 
+        description: errorMessage,
         variant: "destructive",
       });
     },
