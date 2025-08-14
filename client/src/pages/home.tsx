@@ -161,22 +161,20 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen text-white overflow-x-hidden">
+    <div className="min-h-screen text-white overflow-x-hidden bg-transparent relative">
+      
       {/* Video Background */}
-      <div className="fixed inset-0 w-full h-full video-background">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover"
-          data-testid="background-video"
-        >
-          <source src="/background-video.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
-      <div className="fixed inset-0 w-full h-full bg-black bg-opacity-[0.01]"></div>
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="fixed top-0 left-0 w-full h-full object-cover -z-10"
+        data-testid="background-video"
+      >
+        <source src="/background-video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
 
       {/* Main Content */}
       <div className="relative z-10 min-h-screen">

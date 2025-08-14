@@ -4,25 +4,25 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(222, 84%, 5%);
+  --background: transparent; /* Fully transparent! */
   --foreground: hsl(210, 40%, 98%);
-  --card: hsl(222, 84%, 5%);
+  --card: transparent;
   --card-foreground: hsl(210, 40%, 98%);
-  --popover: hsl(222, 84%, 5%);
+  --popover: transparent;
   --popover-foreground: hsl(210, 40%, 98%);
   --primary: hsl(221, 83%, 53%);
   --primary-foreground: hsl(210, 40%, 98%);
-  --secondary: hsl(217, 32%, 17%);
+  --secondary: rgba(17,24,39,0.2); /* very light overlay */
   --secondary-foreground: hsl(210, 40%, 98%);
-  --muted: hsl(217, 32%, 17%);
+  --muted: transparent;
   --muted-foreground: hsl(215, 20%, 65%);
-  --accent: hsl(217, 32%, 17%);
+  --accent: transparent;
   --accent-foreground: hsl(210, 40%, 98%);
   --destructive: hsl(0, 62%, 30%);
   --destructive-foreground: hsl(210, 40%, 98%);
-  --border: hsl(217, 32%, 17%);
-  --input: hsl(217, 32%, 17%);
-  --ring: hsl(224, 71%, 4%);
+  --border: rgba(200,200,200,0.2);
+  --input: rgba(200,200,200,0.1);
+  --ring: rgba(224, 71, 4, 0.05);
   --chart-1: hsl(220, 70%, 50%);
   --chart-2: hsl(160, 60%, 45%);
   --chart-3: hsl(30, 80%, 55%);
@@ -35,55 +35,59 @@
 }
 
 .dark {
-  --background: hsl(222, 84%, 5%);
+  --background: transparent;
   --foreground: hsl(210, 40%, 98%);
-  --card: hsl(222, 84%, 5%);
+  --card: transparent;
   --card-foreground: hsl(210, 40%, 98%);
-  --popover: hsl(222, 84%, 5%);
+  --popover: transparent;
   --popover-foreground: hsl(210, 40%, 98%);
-  --primary: hsl(221, 83%, 53%);
-  --primary-foreground: hsl(210, 40%, 98%);
-  --secondary: hsl(217, 32%, 17%);
-  --secondary-foreground: hsl(210, 40%, 98%);
-  --muted: hsl(217, 32%, 17%);
-  --muted-foreground: hsl(215, 20%, 65%);
-  --accent: hsl(217, 32%, 17%);
-  --accent-foreground: hsl(210, 40%, 98%);
-  --destructive: hsl(0, 62%, 30%);
-  --destructive-foreground: hsl(210, 40%, 98%);
-  --border: hsl(217, 32%, 17%);
-  --input: hsl(217, 32%, 17%);
-  --ring: hsl(224, 71%, 4%);
-  --chart-1: hsl(220, 70%, 50%);
-  --chart-2: hsl(160, 60%, 45%);
-  --chart-3: hsl(30, 80%, 55%);
-  --chart-4: hsl(280, 65%, 60%);
-  --chart-5: hsl(340, 75%, 55%);
 }
 
 @layer base {
   * {
     @apply border-border;
   }
-
   body {
     @apply font-sans antialiased bg-background text-foreground overflow-x-hidden;
+    background: transparent !important; /* For final fallback */
   }
 }
 
 @layer utilities {
   .glassmorphism {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    background: rgba(30,40,70,0.15); /* slightly more visible on total trans bg */
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+  }
+  .glassmorphism-dark {
+    background: rgba(10, 20, 35, 0.10);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.05);
   }
   
-  .glassmorphism-dark {
-    background: rgba(0, 0, 0, 0.03);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.03);
+  .video-background {
+    background: transparent;
+    position: fixed; /* cover entire viewport */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -1; /* behind everything */
+  }
+
+  .video-background video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;
   }
   
   .video-background {
