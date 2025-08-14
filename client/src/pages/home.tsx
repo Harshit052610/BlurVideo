@@ -161,7 +161,22 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen text-white overflow-x-hidden bg-gradient-to-br from-gray-900 via-black to-gray-800">
+    <div className="min-h-screen text-white overflow-x-hidden">
+      {/* Video Background */}
+      <div className="fixed inset-0 w-full h-full video-background">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+          data-testid="background-video"
+        >
+          <source src="/background-video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div className="fixed inset-0 w-full h-full bg-black bg-opacity-[0.01]"></div>
 
       {/* Main Content */}
       <div className="relative z-10 min-h-screen">
@@ -449,6 +464,9 @@ export default function Home() {
                 </div>
                 <div className="text-center text-gray-200" data-testid="footer-copyright">
                   <p>&copy; 2024 EduSolve. Empowering students with AI-powered education.</p>
+                  <p className="text-sm mt-2 opacity-75" data-testid="developer-credits">
+                    Developed by Harshit and Bhavesh
+                  </p>
                 </div>
               </div>
             </div>
